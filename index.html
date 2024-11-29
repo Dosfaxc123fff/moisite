@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Регистрация</h1>
+    <form id="registerForm">
+      <input type="email" id="registerEmail" placeholder="Email" required />
+      <input type="password" id="registerPassword" placeholder="Пароль" required />
+      <button type="submit">Зарегистрироваться</button>
+    </form>
+    <div id="output"></div>
+  </div>
+  <script src="server.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", () => {
+  const registerForm = document.getElementById("registerForm");
+  const output = document.getElementById("output");
+
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("registerEmail").value;
+    const password = document.getElementById("registerPassword").value;
+
+    if (email && password) {
+      try {
+        const response = await fetch("http://localhost:63342/style.css/%D1%81%D0%B0%D0%B9%D1%82/index.html?_ijt=f8q6sh2q9re94n810j60v00ave", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          output.textContent = result.message;
+          output.style.color = "green";
+          registerForm.reset();
+        } else {
+          output.textContent = result.message;
+          output.style.color = "red";
+        }
+      } catch (error) {
+        output.textContent = "Произошла ошибка при подключении к серверу.";
+        output.style.color = "red";
+        console.error(error);
+      }
+    } else {
+      output.textContent = "Введите корректные данные.";
+      output.style.color = "red";
+    }
+  });
+});
+</script>
+</body>
+</html>
